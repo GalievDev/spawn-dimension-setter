@@ -8,7 +8,7 @@
     "Syorito Hatsuki"
   ],
   "contact": {
-    "homepage": "https://syoritohatsuki.dev/"
+    "homepage": "https://galievdev.github.io/"
   },
   "license": "MIT Licence",
   "icon": "assets/template/icon.png",
@@ -17,12 +17,12 @@
     "main": [
       {
         "adapter": "kotlin",
-        "value": "dev.syoritohatsuki.template.TemplateMod"
+        "value": "net.galiev.sws.SpawnWorldSetter"
       }
     ]
   },
   "mixins": [
-    "template.mixins.json"
+    "SpawnWorldSetter.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loaderVersion}",
