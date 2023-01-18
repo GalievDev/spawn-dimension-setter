@@ -28,7 +28,7 @@ object SpawnWorldSetter : ModInitializer {
                 val blockPos = BlockPos.Mutable(x, y, z)
 
                 val world: ServerWorld = ConfigManager.read().dimension.split(":").let { value ->
-                    server.worlds.find { it.dimensionKey.value == Identifier(value[0], value[1]) }
+                    server.worlds.find { it.registryKey.value == Identifier(value[0], value[1]) }
                 } ?: return server.close()
 
                 while (!isSafe(world, blockPos)) {
