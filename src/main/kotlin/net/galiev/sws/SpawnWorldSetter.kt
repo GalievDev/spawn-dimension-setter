@@ -30,8 +30,6 @@ object SpawnWorldSetter : ModInitializer {
                     server.worlds.find { it.dimensionKey.value == Identifier(value[0], value[1]) }
                 } ?: return
 
-                LOGGER.debug("world: ${ConfigManager.read().dimension}")
-
                 while (!isSafe(world, blockPos)) {
                     y++
                     blockPos.y = y
