@@ -21,9 +21,9 @@ object SpawnWorldSetter : ModInitializer {
         ConfigManager
         PlayerFirstJoinCallback.EVENT.register(object : PlayerFirstJoinCallback.FirstJoin {
             override fun joinServerForFirstTime(player: ServerPlayerEntity, server: MinecraftServer) {
-                val x: Int = getRandInt(100000)
+                val x: Int = getRandInt(ConfigManager.read().rangeX)
                 var y = 50
-                val z: Int = getRandInt(100000)
+                val z: Int = getRandInt(ConfigManager.read().rangeZ)
 
                 val blockPos = BlockPos.Mutable(x, y, z)
 
