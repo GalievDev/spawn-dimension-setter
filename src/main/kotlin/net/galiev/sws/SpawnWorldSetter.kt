@@ -11,6 +11,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 import org.slf4j.Logger
 
 object SpawnWorldSetter : ModInitializer {
@@ -33,7 +34,9 @@ object SpawnWorldSetter : ModInitializer {
                 while (!isSafe(world, blockPos)) {
                     y++
                     blockPos.y = y
-                    if (blockPos.y >= 200) {
+                    if (blockPos.y >= 120 && world.registryKey == World.NETHER) {
+                        blockPos.y = 50
+                    } else if (blockPos.y >= 200){
                         blockPos.y = 50
                     }
                 }
@@ -51,7 +54,9 @@ object SpawnWorldSetter : ModInitializer {
                     while (!isSafe(world, blockPos)) {
                         y++
                         blockPos.y = y
-                        if (blockPos.y >= 200) {
+                        if (blockPos.y >= 120 && world.registryKey == World.NETHER) {
+                            blockPos.y = 50
+                        } else if (blockPos.y >= 200){
                             blockPos.y = 50
                         }
                     }

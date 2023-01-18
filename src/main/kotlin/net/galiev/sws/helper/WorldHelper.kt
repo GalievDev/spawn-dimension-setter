@@ -30,6 +30,6 @@ object WorldHelper {
     }
 
     private fun isDangerBlock(world: ServerWorld, mutableBlockPos: BlockPos?): Boolean {
-        return world.getBlockState(mutableBlockPos).block is FluidBlock && world.getBlockState(mutableBlockPos).block === Blocks.BEDROCK
+        return world.getBlockState(mutableBlockPos).block is FluidBlock
     }
 }
