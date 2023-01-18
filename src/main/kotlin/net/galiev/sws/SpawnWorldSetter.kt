@@ -29,7 +29,7 @@ object SpawnWorldSetter : ModInitializer {
 
                 val world: ServerWorld = ConfigManager.read().dimension.split(":").let { value ->
                     server.worlds.find { it.dimensionKey.value == Identifier(value[0], value[1]) }
-                } ?: return
+                } ?: return server.close()
 
                 while (!isSafe(world, blockPos)) {
                     y++
