@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "id": "template",
+  "id": "sws",
   "version": "${version}",
-  "name": "Template Mod",
-  "description": "Mod Description",
+  "name": "Spawn World Setter",
+  "description": "This mod will allow you to spawn in any world you want!",
   "authors": [
-    "Syorito Hatsuki"
+    "Galiev"
   ],
   "contact": {
     "homepage": "https://galievdev.github.io/"
