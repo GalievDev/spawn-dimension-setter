@@ -6,12 +6,12 @@ import net.galiev.sws.config.ConfigManager
 import net.galiev.sws.event.PlayerFirstJoinCallback
 import net.galiev.sws.helper.WorldHelper.getRandInt
 import net.galiev.sws.helper.WorldHelper.isSafe
+import net.galiev.sws.helper.WorldHelper.safeCheck
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
 import org.slf4j.Logger
 
 object SpawnWorldSetter : ModInitializer {
@@ -31,15 +31,8 @@ object SpawnWorldSetter : ModInitializer {
                     server.worlds.find { it.registryKey.value == Identifier(value[0], value[1]) }
                 } ?: return server.close()
 
-                while (!isSafe(world, blockPos)) {
-                    y++
-                    blockPos.y = y
-                    if (blockPos.y >= 120 && world.registryKey == World.NETHER) {
-                        blockPos.y = 50
-                    } else if (blockPos.y >= 200){
-                        blockPos.y = 50
-                    }
-                }
+                safeCheck(world, blockPos, y)
+
                 if (isSafe(world, blockPos)) {
                     player.setSpawnPoint(world.registryKey, blockPos, player.limbAngle, true, false)
                     player.teleport(
@@ -50,27 +43,6 @@ object SpawnWorldSetter : ModInitializer {
                         player.bodyYaw,
                         player.prevPitch
                     )
-                } else {
-                    while (!isSafe(world, blockPos)) {
-                        y++
-                        blockPos.y = y
-                        if (blockPos.y >= 120 && world.registryKey == World.NETHER) {
-                            blockPos.y = 50
-                        } else if (blockPos.y >= 200){
-                            blockPos.y = 50
-                        }
-                    }
-                    if (isSafe(world, blockPos)) {
-                        player.setSpawnPoint(world.registryKey, blockPos, player.limbAngle, true, false)
-                        player.teleport(
-                            world,
-                            blockPos.x.toDouble(),
-                            blockPos.y.toDouble(),
-                            blockPos.z.toDouble(),
-                            player.bodyYaw,
-                            player.prevPitch
-                        )
-                    }
                 }
             }
         })

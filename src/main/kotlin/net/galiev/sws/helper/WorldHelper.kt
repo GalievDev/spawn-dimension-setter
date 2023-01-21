@@ -4,12 +4,28 @@ import net.minecraft.block.Blocks
 import net.minecraft.block.FluidBlock
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 import java.util.*
 
 object WorldHelper {
     fun getRandInt(bound: Int): Int {
         val random = Random()
         return random.nextInt(bound)
+    }
+
+    fun safeCheck(serverWorld: ServerWorld?, blockPos: BlockPos.Mutable, y: Int) {
+        var y = y
+        while (!isSafe(serverWorld!!, blockPos)) {
+            y++
+            blockPos.y = y
+            if (blockPos.y >= 120 && serverWorld.registryKey == World.NETHER) {
+                blockPos.y = 50
+                safeCheck(serverWorld, blockPos, y)
+            } else if (blockPos.y >= 200){
+                blockPos.y = 50
+                safeCheck(serverWorld, blockPos, y)
+            }
+        }
     }
 
     fun isSafe(world: ServerWorld, mutableBlockPos: BlockPos): Boolean {
