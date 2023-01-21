@@ -13,17 +13,17 @@ object WorldHelper {
         return random.nextInt(bound)
     }
 
-    fun safeCheck(serverWorld: ServerWorld?, blockPos: BlockPos.Mutable, y: Int) {
-        var y = y
+    fun safeCheck(serverWorld: ServerWorld?, blockPos: BlockPos.Mutable) {
+        var y: Int = blockPos.y
         while (!isSafe(serverWorld!!, blockPos)) {
             y++
             blockPos.y = y
             if (blockPos.y >= 120 && serverWorld.registryKey == World.NETHER) {
                 blockPos.y = 50
-                safeCheck(serverWorld, blockPos, y)
+                safeCheck(serverWorld, blockPos)
             } else if (blockPos.y >= 200){
                 blockPos.y = 50
-                safeCheck(serverWorld, blockPos, y)
+                safeCheck(serverWorld, blockPos)
             }
         }
     }

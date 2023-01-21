@@ -12,6 +12,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 import org.slf4j.Logger
 
 object SpawnWorldSetter : ModInitializer {
@@ -31,18 +32,23 @@ object SpawnWorldSetter : ModInitializer {
                     server.worlds.find { it.registryKey.value == Identifier(value[0], value[1]) }
                 } ?: return server.close()
 
-                safeCheck(world, blockPos, y)
+                safeCheck(world, blockPos)
 
                 if (isSafe(world, blockPos)) {
-                    player.setSpawnPoint(world.registryKey, blockPos, player.limbAngle, true, false)
-                    player.teleport(
-                        world,
-                        blockPos.x.toDouble(),
-                        blockPos.y.toDouble(),
-                        blockPos.z.toDouble(),
-                        player.bodyYaw,
-                        player.prevPitch
-                    )
+                    if (world.registryKey == World.NETHER) {
+                        player.setSpawnPoint(world.registryKey, blockPos, player.limbAngle, true, false)
+                        player.teleport(
+                            world,
+                            blockPos.x.toDouble(),
+                            blockPos.y.toDouble(),
+                            blockPos.z.toDouble(),
+                            player.bodyYaw,
+                            player.prevPitch
+                        )
+                    } else {
+                        player.setSpawnPoint(world.registryKey, blockPos, player.limbAngle, true, false)
+                        player.moveToWorld(world)
+                    }
                 }
             }
         })
