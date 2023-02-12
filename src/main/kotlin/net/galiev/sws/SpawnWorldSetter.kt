@@ -1,6 +1,7 @@
 package net.galiev.sws
 
 import com.mojang.logging.LogUtils
+import dev.syoritohatsuki.duckyupdater.DuckyUpdater
 import net.fabricmc.api.ModInitializer
 import net.galiev.sws.config.ConfigManager
 import net.galiev.sws.event.PlayerFirstJoinCallback
@@ -38,5 +39,7 @@ object SpawnWorldSetter : ModInitializer {
                 tpSafeZone(player, world, blockPos)
             }
         })
+
+        DuckyUpdater.checkForUpdate("BnoSde42", MOD_ID)
     }
 }
