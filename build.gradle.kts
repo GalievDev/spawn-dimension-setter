@@ -50,6 +50,8 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api", "fabric-api", fabricVersion)
 
     modImplementation("net.fabricmc", "fabric-language-kotlin", fabricKotlinVersion)
+
+    include(modImplementation("maven.modrinth", "ducky-updater", "asdxM3hy"))
 }
 
 tasks {
