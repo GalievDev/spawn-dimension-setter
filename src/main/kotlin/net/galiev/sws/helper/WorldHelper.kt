@@ -5,11 +5,22 @@ import net.minecraft.block.Blocks
 import net.minecraft.block.FluidBlock
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import java.util.*
 
+
 object WorldHelper {
+    val dims = ArrayList<Identifier>()
+
+    fun putWorld(world: Identifier) {
+        dims.add(world)
+    }
+    fun clearWorlds() {
+        dims.clear()
+    }
+
     fun tpSafeZone(player: ServerPlayerEntity, serverWorld: ServerWorld, blockPos: BlockPos.Mutable) {
         if (isSafe(serverWorld, blockPos)){
             player.setSpawnPoint(serverWorld.registryKey, blockPos, player.limbAngle, true, false)

@@ -3,9 +3,13 @@ package net.galiev.sws
 import com.mojang.logging.LogUtils
 import dev.syoritohatsuki.duckyupdater.DuckyUpdater
 import net.fabricmc.api.ModInitializer
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
+import net.galiev.sws.commands.WorldsCommands
 import net.galiev.sws.config.ConfigManager
 import net.galiev.sws.event.PlayerFirstJoinCallback
 import net.galiev.sws.helper.WorldHelper.getRandInt
+import net.galiev.sws.helper.WorldHelper.putWorld
 import net.galiev.sws.helper.WorldHelper.safeCheck
 import net.galiev.sws.helper.WorldHelper.tpSafeZone
 import net.minecraft.server.MinecraftServer
@@ -41,5 +45,11 @@ object SpawnWorldSetter : ModInitializer {
         })
 
         DuckyUpdater.checkForUpdate("BnoSde42", MOD_ID)
+
+        ServerLifecycleEvents.SERVER_STARTED.register(ServerLifecycleEvents.ServerStarted { server ->
+            server?.worlds?.forEach { world -> putWorld(world.registryKey.value)}
+        })
+
+        CommandRegistrationCallback.EVENT.register(CommandRegistrationCallback {dispatcher, _ ->  WorldsCommands.register(dispatcher)})
     }
 }
