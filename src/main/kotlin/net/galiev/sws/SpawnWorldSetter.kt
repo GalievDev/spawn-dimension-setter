@@ -3,7 +3,7 @@ package net.galiev.sws
 import com.mojang.logging.LogUtils
 import dev.syoritohatsuki.duckyupdater.DuckyUpdater
 import net.fabricmc.api.ModInitializer
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.galiev.sws.commands.WorldsCommands
 import net.galiev.sws.config.ConfigManager
@@ -50,6 +50,6 @@ object SpawnWorldSetter : ModInitializer {
             server?.worlds?.forEach { world -> putWorld(world.registryKey.value)}
         })
 
-        CommandRegistrationCallback.EVENT.register(CommandRegistrationCallback {dispatcher, _ ->  WorldsCommands.register(dispatcher)})
+        CommandRegistrationCallback.EVENT.register(CommandRegistrationCallback { dispatcher, _, _ ->  WorldsCommands.register(dispatcher)})
     }
 }
