@@ -23,7 +23,7 @@ object WorldHelper {
 
     fun tpSafeZone(player: ServerPlayerEntity, serverWorld: ServerWorld, blockPos: BlockPos.Mutable) {
         if (isSafe(serverWorld, blockPos)){
-            player.setSpawnPoint(serverWorld.registryKey, blockPos, player.limbAngle, true, false)
+            player.setSpawnPoint(serverWorld.registryKey, blockPos, player.spawnAngle, true, false)
             player.teleport(serverWorld, blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), player.bodyYaw, player.prevPitch)
         } else {
             blockPos.x = getRandInt(ConfigManager.read().rangeX)
@@ -56,7 +56,7 @@ object WorldHelper {
         return random.nextInt(bound)
     }
 
-    fun isSafe(world: ServerWorld, mutableBlockPos: BlockPos): Boolean {
+    private fun isSafe(world: ServerWorld, mutableBlockPos: BlockPos): Boolean {
         return isEmpty(world, mutableBlockPos) && !isDangerBlocks(world, mutableBlockPos)
     }
 
