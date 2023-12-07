@@ -1,4 +1,4 @@
-# Spawn World Setter
+# Spawn Dimension Setter
 
 With this mod you can change the world you spawn in.
 
