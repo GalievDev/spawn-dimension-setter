@@ -44,8 +44,6 @@ object SpawnWorldSetter : ModInitializer {
             }
         })
 
-        DuckyUpdater.checkForUpdate("BnoSde42", MOD_ID)
-
         ServerLifecycleEvents.SERVER_STARTED.register(ServerLifecycleEvents.ServerStarted { server ->
             server?.worlds?.forEach { world -> putWorld(world.registryKey.value)}
         })

@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "sws",
   "version": "${version}",
-  "name": "Spawn World Setter",
-  "description": "This mod will allow you to spawn in any world you want!",
+  "name": "Spawn Dimension Setter",
+  "description": "This mod will allow you to spawn in any dimension you want!",
   "authors": [
     "Galiev"
   ],
@@ -28,7 +28,13 @@
     "fabricloader": ">=${loaderVersion}",
     "fabric": "*",
     "fabric-language-kotlin": ">=${fabricKotlinVersion}",
-    "minecraft": "${minecraftVersion}",
+    "minecraft": ">=${minecraftVersion}",
     "java": ">=${javaVersion}"
+  },
+  "custom": {
+    "duckyupdater": {
+      "modrinthId": "BnoSde42"
+    },
+    "fstats": 42
   }
 }
