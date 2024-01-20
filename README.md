@@ -1,6 +1,6 @@
 # Spawn Dimension Setter
 
-With this mod you can change the world you spawn in. **(Doesn't work with other mods yet)**.
+With this mod you can change the world you spawn in..
 
 Changes need to be made to the *config.json* file.
 
