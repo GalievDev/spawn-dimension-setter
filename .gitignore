@@ -3,6 +3,7 @@ run
 
 ### IDEA ###
 .idea
+.kotlin
 out/
 
 ### Package Files ###

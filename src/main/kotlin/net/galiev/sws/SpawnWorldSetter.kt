@@ -35,7 +35,7 @@ object SpawnWorldSetter : ModInitializer {
             override fun joinServerForFirstTime(player: ServerPlayerEntity, server: MinecraftServer) {
 
                 val world: ServerWorld = ConfigManager.read().dimension.split(":").let { value ->
-                    server.worlds.find { it.registryKey.value == Identifier(value[0], value[1]) }
+                    server.worlds.find { it.registryKey.value == Identifier.of(value[0], value[1]) }
                 } ?: return server.close()
 
                 safeCheck(world, blockPos)
