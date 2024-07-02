@@ -8,7 +8,7 @@ import java.nio.file.Paths
 
 object ConfigManager {
     private val json = Json { encodeDefaults = true; prettyPrint = true; ignoreUnknownKeys = true }
-    private val configDir: File = Paths.get("", "config", "spawn_world_setter").toFile()
+    private val configDir: File = Paths.get("", "config", "spawn_dimension_setter").toFile()
     private val configFile = File(configDir, "config.json")
 
     init {

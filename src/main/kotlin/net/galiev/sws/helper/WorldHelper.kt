@@ -17,6 +17,7 @@ object WorldHelper {
     fun putWorld(world: Identifier) {
         dims.add(world)
     }
+
     fun clearWorlds() {
         dims.clear()
     }

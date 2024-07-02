@@ -38,9 +38,10 @@ object SpawnWorldSetter : ModInitializer {
                     server.worlds.find { it.registryKey.value == Identifier.of(value[0], value[1]) }
                 } ?: return server.close()
 
-                safeCheck(world, blockPos)
-
-                tpSafeZone(player, world, blockPos)
+                if (!ConfigManager.read().safeCheck) {
+                    safeCheck(world, blockPos)
+                    tpSafeZone(player, world, blockPos)
+                }
             }
         })
 
