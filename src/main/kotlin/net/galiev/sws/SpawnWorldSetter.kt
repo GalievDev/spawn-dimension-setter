@@ -1,7 +1,6 @@
 package net.galiev.sws
 
 import com.mojang.logging.LogUtils
-import dev.syoritohatsuki.duckyupdater.DuckyUpdater
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
@@ -38,7 +37,7 @@ object SpawnWorldSetter : ModInitializer {
                     server.worlds.find { it.registryKey.value == Identifier.of(value[0], value[1]) }
                 } ?: return server.close()
 
-                if (!ConfigManager.read().safeCheck) {
+                if (ConfigManager.read().safeCheck) {
                     safeCheck(world, blockPos)
                     tpSafeZone(player, world, blockPos)
                 }
