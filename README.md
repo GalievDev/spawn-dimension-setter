@@ -9,6 +9,7 @@ Changes need to be made to the *config.json* file.
 ```json
 {
     "dimension": "minecraft:the_nether",
+    "safeCheck": true,
     "rangeX": 100000,
     "rangeZ": 100000
 }
