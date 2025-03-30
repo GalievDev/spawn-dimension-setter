@@ -15,6 +15,8 @@ val fabricKotlinVersion: String by project
 val javaVersion = JavaVersion.VERSION_21
 val loaderVersion: String by project
 val minecraftVersion: String by project
+val fstatsVersion: String by project
+val duckyUpdaterVersion: String by project
 
 val modVersion: String by project
 version = modVersion
@@ -53,8 +55,8 @@ dependencies {
 
     modImplementation("net.fabricmc", "fabric-language-kotlin", fabricKotlinVersion)
 
-    include(modImplementation("maven.modrinth", "ducky-updater-lib", "2023.10.1"))
-    include(modImplementation("maven.modrinth", "fstats", "2023.11.2"))
+    include(modImplementation("maven.modrinth", "ducky-updater-lib", duckyUpdaterVersion))
+    include(modImplementation("maven.modrinth", "fstats", fstatsVersion))
 }
 
 tasks {
