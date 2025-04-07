@@ -24,9 +24,22 @@ object SpawnWorldSetter : ModInitializer {
     override fun onInitialize() {
         ConfigManager
 
-        val x: Int = getRandInt(ConfigManager.read().rangeX)
-        val y: Int = 70
-        val z: Int = getRandInt(ConfigManager.read().rangeX)
+        ServerLifecycleEvents.SERVER_STARTED.register(ServerLifecycleEvents.ServerStarted { server ->
+            server?.worlds?.forEach { world -> putWorld(world.registryKey.value) }
+        })
+
+        var x = 0
+        var y = 70
+        var z = 0
+
+        if (ConfigManager.read().isRangeSpawn) {
+            x = getRandInt(ConfigManager.read().rangeSpawn.rangeX)
+            z = getRandInt(ConfigManager.read().rangeSpawn.rangeZ)
+        } else if (ConfigManager.read().isExactSpawn) {
+            x = ConfigManager.read().exactSpawn.x
+            y = ConfigManager.read().exactSpawn.y
+            z = ConfigManager.read().exactSpawn.z
+        }
 
         val blockPos = BlockPos.Mutable(x, y, z)
 
@@ -40,12 +53,11 @@ object SpawnWorldSetter : ModInitializer {
                 if (ConfigManager.read().safeCheck) {
                     safeCheck(world, blockPos)
                     tpSafeZone(player, world, blockPos)
+                } else {
+                    player.setSpawnPoint(ServerPlayerEntity.Respawn(world.registryKey, blockPos, player.bodyYaw, true), false)
+                    player.teleport(world, blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), setOf(), player.bodyYaw, player.pitch, false)
                 }
             }
-        })
-
-        ServerLifecycleEvents.SERVER_STARTED.register(ServerLifecycleEvents.ServerStarted { server ->
-            server?.worlds?.forEach { world -> putWorld(world.registryKey.value)}
         })
 
         CommandRegistrationCallback.EVENT.register(CommandRegistrationCallback { dispatcher, _, _ ->  WorldsCommands.register(dispatcher)})
