@@ -27,8 +27,10 @@ object WorldHelper {
             player.setSpawnPoint(ServerPlayerEntity.Respawn(serverWorld.registryKey, blockPos, player.bodyYaw, true), false)
             player.teleport(serverWorld, blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), setOf(), player.bodyYaw, player.pitch, false)
         } else {
-            blockPos.x = getRandInt(ConfigManager.read().rangeX)
-            blockPos.z = getRandInt(ConfigManager.read().rangeX)
+            if (ConfigManager.read().isRangeSpawn) {
+                blockPos.x = getRandInt(ConfigManager.read().rangeSpawn.rangeX)
+                blockPos.z = getRandInt(ConfigManager.read().rangeSpawn.rangeZ)
+            }
             safeCheck(serverWorld, blockPos)
             tpSafeZone(player, serverWorld, blockPos)
         }
@@ -41,14 +43,18 @@ object WorldHelper {
             blockPos.y = y
             if (blockPos.y >= 120 && serverWorld.registryKey == World.NETHER) {
                 blockPos.y = 70
-                blockPos.x = getRandInt(ConfigManager.read().rangeX)
-                blockPos.z = getRandInt(ConfigManager.read().rangeX)
-                safeCheck(serverWorld, blockPos)
+                if (ConfigManager.read().isRangeSpawn) {
+                    blockPos.x = getRandInt(ConfigManager.read().rangeSpawn.rangeX)
+                    blockPos.z = getRandInt(ConfigManager.read().rangeSpawn.rangeZ)
+                    safeCheck(serverWorld, blockPos)
+                }
             } else if (blockPos.y >= 200){
                 blockPos.y = 70
-                blockPos.x = getRandInt(ConfigManager.read().rangeX)
-                blockPos.z = getRandInt(ConfigManager.read().rangeX)
-                safeCheck(serverWorld, blockPos)
+                if (ConfigManager.read().isRangeSpawn) {
+                    blockPos.x = getRandInt(ConfigManager.read().rangeSpawn.rangeX)
+                    blockPos.z = getRandInt(ConfigManager.read().rangeSpawn.rangeZ)
+                    safeCheck(serverWorld, blockPos)
+                }
             }
         }
     }
