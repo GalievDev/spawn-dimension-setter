@@ -25,7 +25,7 @@ object WorldsCommands {
             CommandManager.literal("sws")
                 .then(CommandManager.literal("worlds").executes { getAllWorlds(it) })
                 .then(CommandManager.literal("playerWorld").executes { getPlayerWorld(it) })
-                .then(CommandManager.literal("setspawnworld")
+                .then(CommandManager.literal("setspawndimension")
                     .requires { it.hasPermissionLevel(2) }
                     .executes {
                         setSpawnWorldSpawn(
