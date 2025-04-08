@@ -1,5 +1,6 @@
 package net.galiev.sws.helper
 
+import net.galiev.sws.SpawnWorldSetter.LOGGER
 import net.galiev.sws.config.ConfigManager
 import net.minecraft.block.Blocks
 import net.minecraft.block.FluidBlock
@@ -26,6 +27,7 @@ object WorldHelper {
         if (isSafe(serverWorld, blockPos)){
             player.setSpawnPoint(ServerPlayerEntity.Respawn(serverWorld.registryKey, blockPos, player.bodyYaw, true), false)
             player.teleport(serverWorld, blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), setOf(), player.bodyYaw, player.pitch, false)
+            LOGGER.info("Players spawns: ${serverWorld.registryKey.value} at ${blockPos.x} ${blockPos.y} ${blockPos.y}")
         } else {
             if (ConfigManager.read().isRangeSpawn) {
                 blockPos.x = getRandInt(ConfigManager.read().rangeSpawn.rangeX)

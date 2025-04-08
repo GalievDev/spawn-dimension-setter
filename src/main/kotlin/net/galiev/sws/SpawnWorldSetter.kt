@@ -50,12 +50,13 @@ object SpawnWorldSetter : ModInitializer {
                     server.worlds.find { it.registryKey.value == Identifier.of(value[0], value[1]) }
                 } ?: return server.close()
 
-                if (ConfigManager.read().safeCheck) {
+                if (ConfigManager.read().safeCheck && ConfigManager.read().isRangeSpawn) {
                     safeCheck(world, blockPos)
                     tpSafeZone(player, world, blockPos)
                 } else {
                     player.setSpawnPoint(ServerPlayerEntity.Respawn(world.registryKey, blockPos, player.bodyYaw, true), false)
                     player.teleport(world, blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), setOf(), player.bodyYaw, player.pitch, false)
+                    LOGGER.info("Players spawns: ${world.registryKey.value} at $x $y $z")
                 }
             }
         })
