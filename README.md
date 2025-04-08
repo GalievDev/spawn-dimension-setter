@@ -24,7 +24,7 @@ Changes need to be made to the *config.json* file.
 }
 ```
 
-**dimension** - is responsible for the world in which you appear.
+**dimension** - the world in which you appear.
 
 **safeCheck** - only needed if range spawn is enabled
 
@@ -32,11 +32,11 @@ Changes need to be made to the *config.json* file.
 
 **isExactSpawn** - allows to set spawn pint in specified position
 
-**rangeX and rangeZ** - Responsible for the range from 0 coordinates.
+**rangeX and rangeZ** - the spawn range from 0 coordinates.
 
 **x, y, z** - coordinates of specified point
 
-Added support for measurements from other mods.
+Added support for dimensions from other mods.
 
 **Proven dimensions:**
 
