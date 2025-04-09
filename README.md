@@ -57,3 +57,8 @@ Added support for dimensions from other mods.
 - Get all worlds in game: ```/sws worlds```
 
 - Get player world: ```/sws playerWorld```
+
+# Demo video
+
+[](https://github.com/user-attachments/assets/177f8e49-0186-4af4-b5f4-6ad82d67a782)
+
