@@ -203,7 +203,6 @@ object WorldsCommands {
         angle: Float
     ): Int {
         if (dims.contains(serverWorld.registryKey.value)) {
-            serverWorld.setSpawnPos(pos, angle)
             ConfigManager.write(
                 Config(
                     serverWorld.registryKey.value.toString(),
@@ -217,11 +216,10 @@ object WorldsCommands {
             context.source.sendFeedback({
                 Text.translatable(
                     "commands.setworldspawn.success",
-                    serverWorld.registryKey.value.toString(),
                     pos.x,
                     pos.y,
                     pos.z,
-                    angle
+                    serverWorld.registryKey.value.toString()
                 )
             }, true)
             return 1
@@ -281,8 +279,7 @@ object WorldsCommands {
                         "commands.teleport.success.location.single",
                         (targets.iterator().next() as Entity).displayName,
                         serverWorld.registryKey.value.toString(),
-                        formatFloat(pos.x),
-                        formatFloat(pos.y),
+                        "${formatFloat(pos.x)}, ${formatFloat(pos.y)}",
                         formatFloat(pos.z)
                     )
                 },
@@ -295,8 +292,7 @@ object WorldsCommands {
                         "commands.teleport.success.location.multiple",
                         targets.size,
                         serverWorld.registryKey.value.toString(),
-                        formatFloat(pos.x),
-                        formatFloat(pos.y),
+                        "${formatFloat(pos.x)}, ${formatFloat(pos.y)}",
                         formatFloat(pos.z)
                     )
                 },
