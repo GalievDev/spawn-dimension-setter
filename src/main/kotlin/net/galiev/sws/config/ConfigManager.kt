@@ -1,6 +1,12 @@
 package net.galiev.sws.config
 
 import kotlinx.serialization.json.Json
+import net.galiev.sws.helper.WorldHelper.getRandInt
+import net.minecraft.server.MinecraftServer
+import net.minecraft.server.network.ServerPlayerEntity.Respawn
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.Identifier
+import net.minecraft.util.math.BlockPos
 import java.io.File
 import java.nio.file.Paths
 
@@ -26,5 +32,33 @@ object ConfigManager {
     fun write(config: Config) {
         if (!configDir.exists()) configDir.mkdirs()
         configFile.writeText(json.encodeToString(config))
+    }
+
+    fun respawn(server: MinecraftServer, blockPos: BlockPos, angle: Float): Respawn? {
+        val world: ServerWorld = read().dimension.split(":").let { value ->
+            server.worlds.find { it.registryKey.value == Identifier.of(value[0], value[1]) }
+        } ?: return null
+
+        return Respawn(world.registryKey, blockPos, angle, true)
+    }
+
+    fun respawn(world: ServerWorld, angle: Float): Respawn =
+        Respawn(world.registryKey, BlockPos(read().exactSpawn.x, read().exactSpawn.y, read().exactSpawn.z), angle, true)
+
+    fun blockPos(): BlockPos.Mutable {
+        var x = 0
+        var y = 70
+        var z = 0
+
+        if (read().isRangeSpawn) {
+            x = getRandInt(read().rangeSpawn.rangeX)
+            z = getRandInt(read().rangeSpawn.rangeZ)
+        } else if (read().isExactSpawn) {
+            x = read().exactSpawn.x
+            y = read().exactSpawn.y
+            z = read().exactSpawn.z
+        }
+
+        return BlockPos.Mutable(x, y, z)
     }
 }

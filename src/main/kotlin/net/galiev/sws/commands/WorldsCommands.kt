@@ -203,6 +203,14 @@ object WorldsCommands {
         angle: Float
     ): Int {
         if (dims.contains(serverWorld.registryKey.value)) {
+            val newRespawn = ConfigManager.respawn(context.source.server, pos, angle)!!
+            val oldRespawn = ConfigManager.respawn(serverWorld, angle)
+            context.source.world.players.forEach {
+                val playerRespawn = it.respawn
+                if (playerRespawn?.pos == oldRespawn.pos) {
+                    it.setSpawnPoint(newRespawn, false)
+                }
+            }
             ConfigManager.write(
                 Config(
                     serverWorld.registryKey.value.toString(),
