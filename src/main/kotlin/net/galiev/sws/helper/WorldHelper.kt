@@ -1,8 +1,11 @@
 package net.galiev.sws.helper
 
+import net.galiev.sws.SpawnWorldSetter.LOGGER
 import net.galiev.sws.config.ConfigManager
+import net.minecraft.block.BedBlock
 import net.minecraft.block.Blocks
 import net.minecraft.block.FluidBlock
+import net.minecraft.block.RespawnAnchorBlock
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
@@ -22,13 +25,24 @@ object WorldHelper {
         dims.clear()
     }
 
+    fun hasRespawnBlocks(player: ServerPlayerEntity) = player.spawnPointDimension?.let { dimension ->
+        player.spawnPointPosition?.let { pos ->
+            player.server.getWorld(dimension)?.getBlockState(pos)?.block?.let {
+                it is RespawnAnchorBlock || it is BedBlock
+            }
+        }
+    } ?: false
+
     fun tpSafeZone(player: ServerPlayerEntity, serverWorld: ServerWorld, blockPos: BlockPos.Mutable) {
         if (isSafe(serverWorld, blockPos)){
-            player.setSpawnPoint(serverWorld.registryKey, blockPos, player.spawnAngle, true, false)
-            player.teleport(serverWorld, blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), setOf(), player.bodyYaw, player.prevPitch, false)
+            player.setSpawnPoint(serverWorld.registryKey, blockPos, player.bodyYaw, true, false)
+            player.teleport(serverWorld, blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), setOf(), player.bodyYaw, player.pitch, false)
+            LOGGER.info("Players spawns: ${serverWorld.registryKey.value} at ${blockPos.x} ${blockPos.y} ${blockPos.y}")
         } else {
-            blockPos.x = getRandInt(ConfigManager.read().rangeX)
-            blockPos.z = getRandInt(ConfigManager.read().rangeX)
+            if (ConfigManager.read().isRangeSpawn) {
+                blockPos.x = getRandInt(ConfigManager.read().rangeSpawn.rangeX)
+                blockPos.z = getRandInt(ConfigManager.read().rangeSpawn.rangeZ)
+            }
             safeCheck(serverWorld, blockPos)
             tpSafeZone(player, serverWorld, blockPos)
         }
@@ -41,14 +55,18 @@ object WorldHelper {
             blockPos.y = y
             if (blockPos.y >= 120 && serverWorld.registryKey == World.NETHER) {
                 blockPos.y = 70
-                blockPos.x = getRandInt(ConfigManager.read().rangeX)
-                blockPos.z = getRandInt(ConfigManager.read().rangeX)
-                safeCheck(serverWorld, blockPos)
+                if (ConfigManager.read().isRangeSpawn) {
+                    blockPos.x = getRandInt(ConfigManager.read().rangeSpawn.rangeX)
+                    blockPos.z = getRandInt(ConfigManager.read().rangeSpawn.rangeZ)
+                    safeCheck(serverWorld, blockPos)
+                }
             } else if (blockPos.y >= 200){
                 blockPos.y = 70
-                blockPos.x = getRandInt(ConfigManager.read().rangeX)
-                blockPos.z = getRandInt(ConfigManager.read().rangeX)
-                safeCheck(serverWorld, blockPos)
+                if (ConfigManager.read().isRangeSpawn) {
+                    blockPos.x = getRandInt(ConfigManager.read().rangeSpawn.rangeX)
+                    blockPos.z = getRandInt(ConfigManager.read().rangeSpawn.rangeZ)
+                    safeCheck(serverWorld, blockPos)
+                }
             }
         }
     }
