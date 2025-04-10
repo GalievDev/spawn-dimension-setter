@@ -13,8 +13,6 @@ import net.galiev.sws.helper.WorldHelper.safeCheck
 import net.galiev.sws.helper.WorldHelper.tpSafeZone
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.util.Identifier
 import org.slf4j.Logger
 
 object SpawnWorldSetter : ModInitializer {
@@ -31,9 +29,6 @@ object SpawnWorldSetter : ModInitializer {
         PlayerFirstJoinCallback.EVENT.register(object : PlayerFirstJoinCallback.FirstJoin {
             override fun joinServerForFirstTime(player: ServerPlayerEntity, server: MinecraftServer) {
                 val blockPos = ConfigManager.blockPos()
-                val world: ServerWorld = ConfigManager.read().dimension.split(":").let { value ->
-                    server.worlds.find { it.registryKey.value == Identifier.of(value[0], value[1]) }
-                } ?: return server.close()
 
                 val respawn = ConfigManager.respawn(server, blockPos, player.yaw) ?: return server.close()
 
@@ -51,7 +46,7 @@ object SpawnWorldSetter : ModInitializer {
                         player.pitch,
                         false
                     )
-                    LOGGER.info("Players spawns: ${world.registryKey.value} at ${blockPos.x} ${blockPos.y} ${blockPos.z}")
+                    LOGGER.info("Players spawns: ${respawn.dimension.value} at ${blockPos.x} ${blockPos.y} ${blockPos.z}")
                 }
             }
         })
